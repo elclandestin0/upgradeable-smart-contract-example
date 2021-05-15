@@ -6,7 +6,7 @@ async function main() {
   console.log("Deploying Pomogra...");
   const pomogra = await upgrades.deployProxy(Pomogra, ["First message!"], { initializer: 'addPaper' });
   await pomogra.deployed();
-  console.log("Pomogra deployed to:", pomogra.address);
+  console.log("Pomogra deployed to: ", pomogra.address);
 }
 
 main();

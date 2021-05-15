@@ -4,10 +4,10 @@ pragma solidity ^0.8.0;
 /**
     @title Pomogra
     @author Memo Khoury
-    @dev regular version of pomograhh
+    @dev Upgradable version of pomogra
  */
 
-contract Pomogra {
+contract PomograV2 {
     Paper[] private _chain;
 
     struct Paper {
@@ -26,4 +26,7 @@ contract Pomogra {
         return _chain;
     }
 
+    function newFunction() public pure returns (string memory) {
+        return "New function, same address!";
+    }
 }

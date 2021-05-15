@@ -7,7 +7,7 @@
       "hash": "0xa22e0353aca806bcadb1bc1e34dca681299d494689643efc414c2370ac21769b",
       "type": 0,
       "accessList": null,
-      "blockHash": "0x2b46f372c3c9ca19379a05be2ac7cdcd88850d636664f3c2450e8c4654ba0713",
+      "blockHash": "0x872ee7c1bd83f65997cc8f45e2e36f7bd552c4ac508984a3d340c083ae1576be",
       "blockNumber": 2,
       "transactionIndex": 0,
       "confirmations": 1,
@@ -44,7 +44,7 @@
   "impls": {
     "105f56734ed089e3ef0b693bc0aea1cc2bd912dc0126ba260ef0c6482bc9fe9f": {
       "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "txHash": "0x4543d91c74b4fcb9e148b04f8ac01c76a994971af0aab7769a483b8223b28554",
+      "txHash": "0x0845a58b5da16005f4101bf52e37c95b4cd1035cb5a2656269ccb38f4c50fb16",
       "layout": {
         "storage": [
           {
@@ -60,6 +60,44 @@
           },
           "t_struct(Paper)11_storage": {
             "label": "struct Pomogra.Paper",
+            "members": [
+              {
+                "label": "message",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "owner",
+                "type": "t_address"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_address": {
+            "label": "address"
+          }
+        }
+      }
+    },
+    "73087d89156efc9cdfcdef01c86ffe0ba705c19a1821936303a54a47a1ad36f3": {
+      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "txHash": "0x6c3de3d36243040d27e8e8d9b46f8fcd611abce665f9b4b5cc454cdbbe095bed",
+      "layout": {
+        "storage": [
+          {
+            "contract": "PomograV2",
+            "label": "_chain",
+            "type": "t_array(t_struct(Paper)11_storage)dyn_storage",
+            "src": "contracts/PomograV2.sol:11"
+          }
+        ],
+        "types": {
+          "t_array(t_struct(Paper)11_storage)dyn_storage": {
+            "label": "struct PomograV2.Paper[]"
+          },
+          "t_struct(Paper)11_storage": {
+            "label": "struct PomograV2.Paper",
             "members": [
               {
                 "label": "message",
