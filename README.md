@@ -36,5 +36,39 @@ contract Sample {
     uint256 private someValue;
     // allowed: adding new state variables after
 }
+```
+## Proxy Upgrade Pattern
 
 ```
+User ---- tx ---> Proxy ----------> Implementation_v0
+                     |
+                      ------------> Implementation_v1
+                     |
+                      ------------> Implementation_v2
+```
+
+Interfacing the proxy contract with the logic contract using a one-to-one mapping is not only tedious, but also prone to many different errors. For this reason, a dynamic forwarding mechanism is required. When the caller calls a logic contract, they are really doing the following to the proxy's fallback function:
+- copying callback data to memory
+- call is forwarded to logic contract
+- return the data from the call to the logic contract to the proxy
+- returned data to the proxy is forwarded back to the caller
+
+It is important to note that the state is in the proxy, which is controlled by the logic contract. The logic, however, is contained in the logic contract. 
+
+
+
+## Storage collisions
+Suppose a proxy contract contains one state variable `address public _implementation` which stores the logic contract's address. Inside the logic contract, suppose it contains one state variable called `address public _owner`. When the logic contract writes to the `_owner`, it writes in the proxy's state.. which means it really writes in the `_implementation`. This is called storage collision. 
+
+Open Zeppelin Upgrades solves this problem by choosing a random pseudo slot anytime a proxy variable is created.
+
+### Storage collisions between different implementation contract versions
+We've described before in this README file how we are supposed to order new variables when creating new implementation contracts. The reason why we neither can remove old variables nor change their layout is due to their slots. If we add a new variable `_lastContributor` to the new implementation contract at the _end_ of the order of state variables, this is ok. However, adding a new variable at the _beginning_ of an implementation contract will overwrite the slot of the first variable in the previous contract. 
+
+
+## Function clashes
+There are times where functions of the implementation contracts and proxy contracts have the same name. Calling a function with the same name in a proxy and an implementation contract will result in a function clash. The way OZ deals with this is by detecting who the `msg.sender` is and reacting accordingly. As an example:
+- If the `msg.sender` is the admin of the proxy, then the proxy will not delegate any calls to the logic contract
+- If, however, the `msg.sender` is not the admin of the proxy, then it will delegate the calls to the logic contract. 
+
+OZ upgrades automatically solves this situation by creating an intermediary ProxyAdmin contract, as described before. This proxyAdmin contract is in charge of all the proxies that are created.
